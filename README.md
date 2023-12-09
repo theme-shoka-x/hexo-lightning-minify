@@ -24,15 +24,13 @@ minify:
     exclude: # Exclude files, accepts string[], must conform to micromatch format
   css:
     enable: true # Enable CSS optimization
-    options: {
+    options:
       targets: ">= 0.5%" # browserslist format target
-    }
     exclude: # Exclude files, accepts string[], must conform to micromatch format
   html:
     enable: true # Enable HTML optimization
-    options: {
+    options:
       comments: false # Whether to preserve comment content
-    }
     exclude: # Exclude files, accepts string[], must conform to micromatch format
 ```
 ## Features
