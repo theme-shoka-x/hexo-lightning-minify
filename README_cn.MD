@@ -24,15 +24,13 @@ minify:
     exclude: # 排除文件，接受 string[]，需符合 micromatch 格式
   css:
     enable: true # 开启 CSS 优化
-    options: {
+    options:
       targets: ">= 0.5%" # browserslist 格式的 target
-    }
     exclude: # 排除文件，接受 string[]，需符合 micromatch 格式
   html:
     enable: true # 开启 HTML 优化
-    options: {
+    options:
       comments: false # 是否保留注释内容
-    }
     exclude: # 排除文件，接受 string[]，需符合 micromatch 格式
 ```
 
