@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "removeComments": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node16",
+    "skipLibCheck": true
+  },
+  "typeAcquisition": {
+    "enable": true
+  }
+}
