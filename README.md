@@ -40,4 +40,8 @@ minify:
 - [ ] Automatic pre-connection optimization (long term)
 
 ## Comparison
-WIP
+On ShokaX v0.3.9： \
+<img src="https://github.com/theme-shoka-x/hexo-lightning-minify/assets/92242020/35a79034-28e2-461d-ac73-e74745b92f4d" width="480px">
+<img src="https://github.com/theme-shoka-x/hexo-lightning-minify/assets/92242020/6a00aabd-c184-4488-ba12-5ad3bafb2848" width="480px">
+<br>
+When run `hexo g`，`hexo-lightning-minify` runs ~1.88x faster than HRMNMI(HRMMIR)，~1.3x faster than `hexo-neat`
