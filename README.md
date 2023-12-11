@@ -1,4 +1,5 @@
 # hexo-lightning-minify
+WIP
 [中文版本](./README_cn.MD)
 ## Introduction
 This plugin is a minifier module split from [hexo-renderer-multi-next-markdown-it](https://github.com/theme-shoka-x/hexo-renderer-multi-next-markdown-it).
@@ -17,10 +18,6 @@ npm install hexo-lightning-minify
 minify:
   js:
     enable: true # ShokaX comes with esbuild optimization, not recommended to enable; recommended for other themes
-    options:
-      comments: false # Whether to preserve comments in js files
-      ecma: 2020 # Maximum ECMA version allowed during optimization
-      toplevel: true # Whether to allow optimization of top-level variables and functions
     exclude: # Exclude files, accepts string[], must conform to micromatch format
   css:
     enable: true # Enable CSS optimization

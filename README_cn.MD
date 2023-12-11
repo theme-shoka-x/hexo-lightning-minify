@@ -17,10 +17,6 @@ npm install hexo-lightning-minify
 minify:
   js:
     enable: true # ShokaX 自带 esbuild 优化，不建议开启，其他主题建议开启
-    options:
-      comments: false # 是否保留 js 文件注释
-      ecma: 2020 # 优化时允许使用的 ECMA 版本上限
-      toplevel: true # 是否允许对顶层变量和函数进行优化
     exclude: # 排除文件，接受 string[]，需符合 micromatch 格式
   css:
     enable: true # 开启 CSS 优化
@@ -42,4 +38,3 @@ minify:
 
 ## 比较
 WIP
-
