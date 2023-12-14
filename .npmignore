@@ -1,0 +1,10 @@
+*.ts
+.npmrc
+.eslintrc.cjs
+.editorconfig
+tsconfig.json
+.idea
+.github
+pnpm-lock.yaml
+qodana.yaml
+
