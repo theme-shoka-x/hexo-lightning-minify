@@ -1,4 +1,5 @@
 # hexo-lightning-minify
+
 ## 简介
 
 此插件为[hexo-renderer-multi-next-markdown-it](https://github.com/theme-shoka-x/hexo-renderer-multi-next-markdown-it)拆分出的缩小器模块。
@@ -7,12 +8,14 @@
 如果你需要更全面的优化可以试试[hexo-optimize](https://github.com/next-theme/hexo-optimize)。本项目更倾向于作为 ShokaX 的配套支持包存在，因而仅存在基本的缩小与优化功能。
 
 ## 安装
+
 ```shell
 pnpm add hexo-lightning-minify # 建议使用pnpm
 npm install hexo-lightning-minify
 ```
 
 ## 配置
+
 ```yaml
 minify:
   js:
@@ -41,21 +44,25 @@ minify:
 ```
 
 ## 功能
+
 - [x] 自动缩小 js、css 和 html
 - [x] 基于 targets 自动处理 CSS 前缀兼容
 - [x] 自动 webp 化与图片预处理
 - [ ] 自动预连接优化(长期)
 
 ## 比较
-在 ShokaX v0.3.9进行的测试： \
+
+在 ShokaX v0.3.9 进行的测试： \
 <img src="https://github.com/theme-shoka-x/hexo-lightning-minify/assets/92242020/35a79034-28e2-461d-ac73-e74745b92f4d" width="480px">
 <img src="https://github.com/theme-shoka-x/hexo-lightning-minify/assets/92242020/6a00aabd-c184-4488-ba12-5ad3bafb2848" width="480px">
 <br>
 
 基于 [hexo-many-posts](https://github.com/hexojs/hexo-many-posts) 测试：
 
+使用 Hexo 6.3.0，仅对 html, css 和 js 进行压缩测试
+
 |                              | base    | hexo-neat | hexo-minify | hexo-all-minifier | hexo-lightning-minify |
-|:-----------------------------|---------|-----------|-------------|-------------------|-----------------------|
+| :--------------------------- | ------- | --------- | ----------- | ----------------- | --------------------- |
 | landscape                    | 10.529s | 37.918s   | 36.844s     | 38.572s           | 16.304s               |
 | next                         | 27.275s | 36.124s   | 42.854s     | 37.063s           | 29.880s               |
 | butterfly                    | 13.853s | 26.641s   | 26.736s     | 35.973s           | 16.796s               |
@@ -64,3 +71,16 @@ minify:
 | shokax(hexo-renderer-marked) | 13.189s | 20.618s   | 19.658s     | 22.448s           | 14.619s               |
 
 ![chart](https://github.com/theme-shoka-x/hexo-lightning-minify/assets/92242020/e8f5a5c8-5d34-4899-81ae-20bf892e2231)
+
+|                              | base         | hexo-neat    | hexo-minify  | hexo-all-minifier | hexo-lightning-minify |
+| :--------------------------- | ------------ | ------------ | ------------ | ----------------- | --------------------- |
+| landscape                    | 99,617,529B  | 97,186,156B  | 92,010,232B  | 97,184,707B       | 88,175,339B           |
+| next                         | 32,469,157B  | 30,087,003B  | 28,744,583B  | 30,059,443B       | 28,020,740B           |
+| butterfly                    | 37,593,633B  | 37,237,074B  | 33,485,597B  | 34,897,171B       | 35,504,670B           |
+| particlex                    | 540,876,348B | 226,997,833B | 214,050,994B | 226,990,791B      | 221,896,130B          |
+| reimu                        | 110,252,086B | 95,756,049B  | 91,074,639B  | 95,715,486B       | 88,088,009B           |
+| shokax(hexo-renderer-marked) | 142,585,026B | 142,404,138B | 140,988,094B | 142,011,849B      | 140,457,331B          |
+
+图表中为了更加清晰的对比，所以移除了 hexo-theme-particlex
+
+![chart2](https://github.com/theme-shoka-x/hexo-lightning-minify/assets/49871906/4eea08d2-c51e-474b-ac16-d9e8ecb52d00)
