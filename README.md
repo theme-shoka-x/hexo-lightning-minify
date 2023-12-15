@@ -17,23 +17,33 @@ npm install hexo-lightning-minify
 ```yaml
 minify:
   js:
-    enable: true # ShokaX comes with esbuild optimization, not recommended to enable; recommended for other themes
-    exclude: # Exclude files, accepts string[], must conform to micromatch format
+    enable: true # ShokaX comes with esbuild optimization, not recommended to enable. Recommended for other themes.
+    exclude: # Exclude files, accept string[], must match micromatch format
   css:
     enable: true # Enable CSS optimization
     options:
       targets: ">= 0.5%" # browserslist format target
-    exclude: # Exclude files, accepts string[], must conform to micromatch format
+    exclude: # Exclude files, accept string[], must match micromatch format
   html:
     enable: true # Enable HTML optimization
     options:
       comments: false # Whether to preserve comment content
-    exclude: # Exclude files, accepts string[], must conform to micromatch format
+    exclude: # Exclude files, accept string[], must match micromatch format
+  image:
+    enable: true # Enable image preprocessing and automatic WebP conversion
+    options:
+      avif: false
+      webp: true # Reserved configuration item, no effect in the current version
+      quality: 80 # Quality, supports integers from 1-100, lossless, or nearLossless
+      effort: 2 # CPU effort, an integer between 0 and 6 (lower for faster)
+      replaceSrc: true # Automatically replace local image links in generated HTML with WebP links
+      # We recommend using a Service Worker to implement the replaceSrc functionality on the user side, which will enable link replacement in a less intrusive manner.
+    exclude:
 ```
 ## Features
 - [x] Automatically minify js, css, and html
 - [x] Automatically handle CSS prefix compatibility based on targets
-- [ ] Automatic webp conversion and image preprocessing
+- [x] Automatic webp conversion and image preprocessing
 - [ ] Automatic pre-connection optimization (long term)
 
 ## Comparison

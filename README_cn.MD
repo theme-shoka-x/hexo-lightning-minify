@@ -28,12 +28,22 @@ minify:
     options:
       comments: false # 是否保留注释内容
     exclude: # 排除文件，接受 string[]，需符合 micromatch 格式
+  image:
+    enable: true # 开启图片预处理和自动 WebP 化
+    options:
+      avif: false
+      webp: true # 预留配置项，现版本无作用
+      quality: 80 # 质量，支持1-100的整数、lossless或nearLossless
+      effort: 2 # CPU 工作量，0-6之间的整数(越低越快)
+      replaceSrc: true # 自动替换生成html中的本地图片链接为webp链接
+      # 我们更建议使用 Service Worker 来在用户侧实现 replaceSrc 的功能，这将能够以一种侵入式更小的方式实现链接替换
+    exclude:
 ```
 
 ## 功能
 - [x] 自动缩小 js、css 和 html
 - [x] 基于 targets 自动处理 CSS 前缀兼容
-- [ ] 自动 webp 化与图片预处理
+- [x] 自动 webp 化与图片预处理
 - [ ] 自动预连接优化(长期)
 
 ## 比较
