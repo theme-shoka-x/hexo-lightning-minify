@@ -11,17 +11,17 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@minify-html/node": "^0.11.1",
-    "@types/node": "^20.10.4",
     "browserslist": "^4.22.2",
     "cheerio": "1.0.0-rc.12",
     "esbuild": "^0.19.9",
-    "hexo": "^7.0.0",
     "lightningcss": "^1.22.1",
     "micromatch": "^4.0.5",
-    "sharp": "^0.33.0",
-    "typescript": "^5.3.3"
+    "sharp": "^0.33.0"
   },
   "devDependencies": {
-    "@types/micromatch": "^4.0.6"
+    "@types/micromatch": "^4.0.6",
+    "@types/node": "^20.10.4",
+    "hexo": "^7.0.0",
+    "typescript": "^5.3.3"
   }
 }
