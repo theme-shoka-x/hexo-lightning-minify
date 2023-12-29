@@ -5,7 +5,7 @@
     "removeComments": true,
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node16",
+    "moduleResolution": "node",
     "skipLibCheck": true
   },
   "typeAcquisition": {

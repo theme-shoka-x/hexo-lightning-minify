@@ -14,7 +14,7 @@ hexo.config.minify.js = Object.assign({
     toplevel: false
   },
   exclude: []
-},hexo.config.minify.js)
+},hexo.config.minify?.js)
 
 hexo.config.minify.css = Object.assign({
   enable: true,
@@ -22,7 +22,7 @@ hexo.config.minify.css = Object.assign({
     targets: null
   },
   exclude: []
-},hexo.config.minify.css)
+},hexo.config.minify?.css)
 
 hexo.config.minify.html = Object.assign({
   enable: true,
@@ -30,7 +30,7 @@ hexo.config.minify.html = Object.assign({
     comments: false
   },
   exclude: []
-},hexo.config.minify.html)
+},hexo.config.minify?.html)
 
 hexo.config.minify.image = Object.assign({
   enable: true,
@@ -42,7 +42,7 @@ hexo.config.minify.image = Object.assign({
     replaceSrc: true,
   },
   exclude: []
-},hexo.config.minify.image)
+},hexo.config.minify?.image)
 
 hexo.extend.filter.register("after_render:html", minify_html)
 hexo.extend.filter.register("after_render:css", minify_css)

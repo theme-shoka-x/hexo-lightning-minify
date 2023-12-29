@@ -1,6 +1,6 @@
 {
   "name": "hexo-lightning-minify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Hexo plugin that can automatically minify JS, CSS, and HTML files at lightning speed.",
   "main": "index.js",
   "scripts": {
@@ -10,15 +10,15 @@
   "author": "zkz098",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@minify-html/node": "^0.11.1",
-    "@types/node": "^20.10.4",
+    "@minify-html/node": "^0.15.0",
+    "@types/node": "^20.10.5",
     "browserslist": "^4.22.2",
     "cheerio": "1.0.0-rc.12",
-    "esbuild": "^0.19.9",
+    "esbuild": "^0.19.10",
     "hexo": "^7.0.0",
     "lightningcss": "^1.22.1",
     "micromatch": "^4.0.5",
-    "sharp": "^0.33.0",
+    "sharp": "^0.33.1",
     "typescript": "^5.3.3"
   },
   "devDependencies": {

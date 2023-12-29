@@ -76,8 +76,8 @@ export function replaceSrc(this: Hexo, str:string){
     return path.join(srcO.dir, srcO.name + '.webp').replace(/\\/g, '/')
   }
 
-  function isLocalLink(src?:string){
-    return (src && (src.startsWith('/') || new URL(src).origin === origin) && /\.(png|jpg|gif)$/.test(src));
+  const isLocalLink = (src?:string)=>{
+    return (src && (src.startsWith('/') || new URL(src,this.config.url).origin === origin) && /\.(png|jpg|gif)$/.test(src));
   }
 
   $('img').each(function (){
