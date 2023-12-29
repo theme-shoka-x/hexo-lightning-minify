@@ -77,7 +77,7 @@ export function replaceSrc(this: Hexo, str:string){
   }
 
   const isLocalLink = (src?:string)=>{
-    return (src && (src.startsWith('/') || new URL(src,this.config.url).origin === origin) && /\.(png|jpg|gif)$/.test(src));
+    return (src && (src.startsWith('/') || src.startsWith('.') || new URL(src,this.config.url).origin === origin) && /\.(png|jpg|gif)$/.test(src));
   }
 
   $('img').each(function (){
