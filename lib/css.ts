@@ -12,7 +12,7 @@ interface CSSMinifyConfig {
 export function minify_css(this: Hexo,str:string,data:any){
   const {options,exclude} = this.config.minify.css as CSSMinifyConfig
   const targets = browserslistToTargets(browserslist(options.targets || '>= 0.5%'))
-  if (isExclude(data.path,exclude)) return str
+  if (!data.path || isExclude(data.path,exclude)) return str
   return transform({
     filename: data.path,
     code: Buffer.from(str),
