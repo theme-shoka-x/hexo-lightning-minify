@@ -44,9 +44,15 @@ hexo.config.minify.image = Object.assign({
   exclude: []
 },hexo.config.minify?.image)
 
-hexo.extend.filter.register("after_render:html", minify_html)
-hexo.extend.filter.register("after_render:css", minify_css)
-hexo.extend.filter.register("after_render:js", minify_js)
+if (hexo.config.minify.html.enable) {
+  hexo.extend.filter.register("after_render:html", minify_html)
+}
+if (hexo.config.minify.css.enable) {  
+  hexo.extend.filter.register("after_render:css", minify_css)
+}
+if (hexo.config.minify.js.enable) {
+  hexo.extend.filter.register("after_render:js", minify_js)
+}
 if (hexo.config.minify.image.enable) {
   hexo.extend.filter.register("after_generate", transformImage, 50)
   if (hexo.config.minify.image.options.replaceSrc) {
