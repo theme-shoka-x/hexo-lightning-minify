@@ -1,8 +1,8 @@
 import type Hexo from 'hexo'
-import {minify_html} from "./lib/html";
-import {minify_css} from "./lib/css";
-import {minify_js} from "./lib/js";
-import {replaceSrc, transformImage} from "./lib/img";
+import { minifyHtml } from './lib/html'
+import { minifyCss } from './lib/css'
+import { minifyJs } from './lib/js'
+import { replaceSrc, transformImage } from './lib/img'
 
 declare const hexo:Hexo
 
@@ -14,7 +14,7 @@ hexo.config.minify.js = Object.assign({
     toplevel: false
   },
   exclude: []
-},hexo.config.minify?.js)
+}, hexo.config.minify?.js)
 
 hexo.config.minify.css = Object.assign({
   enable: true,
@@ -22,7 +22,7 @@ hexo.config.minify.css = Object.assign({
     targets: null
   },
   exclude: []
-},hexo.config.minify?.css)
+}, hexo.config.minify?.css)
 
 hexo.config.minify.html = Object.assign({
   enable: true,
@@ -30,7 +30,7 @@ hexo.config.minify.html = Object.assign({
     comments: false
   },
   exclude: []
-},hexo.config.minify?.html)
+}, hexo.config.minify?.html)
 
 hexo.config.minify.image = Object.assign({
   enable: true,
@@ -39,24 +39,23 @@ hexo.config.minify.image = Object.assign({
     avif: false,
     quality: 80,
     effort: 2,
-    replaceSrc: true,
+    replaceSrc: true
   },
   exclude: []
-},hexo.config.minify?.image)
+}, hexo.config.minify?.image)
 
 if (hexo.config.minify.html.enable) {
-  hexo.extend.filter.register("after_render:html", minify_html)
+  hexo.extend.filter.register('after_render:html', minifyHtml)
 }
-if (hexo.config.minify.css.enable) {  
-  hexo.extend.filter.register("after_render:css", minify_css)
+if (hexo.config.minify.css.enable) {
+  hexo.extend.filter.register('after_render:css', minifyCss)
 }
 if (hexo.config.minify.js.enable) {
-  hexo.extend.filter.register("after_render:js", minify_js)
+  hexo.extend.filter.register('after_render:js', minifyJs)
 }
 if (hexo.config.minify.image.enable) {
-  hexo.extend.filter.register("after_generate", transformImage, 50)
+  hexo.extend.filter.register('after_generate', transformImage, 50)
   if (hexo.config.minify.image.options.replaceSrc) {
-    hexo.extend.filter.register("after_render:html", replaceSrc, 1)
+    hexo.extend.filter.register('after_render:html', replaceSrc, 1)
   }
 }
-
