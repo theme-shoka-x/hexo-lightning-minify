@@ -2,7 +2,7 @@ import type Hexo from 'hexo'
 import { minifyHtml } from './lib/html'
 import { minifyCss } from './lib/css'
 import { minifyJs } from './lib/js'
-import { replaceSrc, transformImage } from './lib/img'
+import { injectThumbHash, replaceSrc, transformImage, transformThumbHash } from './lib/img'
 
 declare const hexo:Hexo
 
@@ -57,5 +57,12 @@ if (hexo.config.minify.image.enable) {
   hexo.extend.filter.register('after_generate', transformImage, 50)
   if (hexo.config.minify.image.options.replaceSrc) {
     hexo.extend.filter.register('after_render:html', replaceSrc, 1)
+  }
+  if (hexo.config.minify.image.preprocess.thumbhash.enable) {
+    hexo.extend.filter.register('after_generate', transformThumbHash, 40)
+    hexo.extend.filter.register('after_render:html', injectThumbHash, 2)
+    if (hexo.config.minify.image.preprocess.thumbhash.injectUnlazy) {
+      hexo.extend.injector.register('head_end', '<script src="https://npm.webcache.cn/unlazy@0.10.4/dist/unlazy.with-hashing.iife.js" defer init></script>')
+    }
   }
 }
