@@ -35,7 +35,7 @@ minify:
       comments: false # Whether to preserve comment content
     exclude: # Exclude files, accept string[], must match micromatch format
   image:
-    enable: true # Enable image preprocessing and automatic WebP conversion
+    enable: true # Enable image preprocessing and automatic WebP conversion(hexo d)
     options:
       avif: false
       webp: true # Reserved configuration item, no effect in the current version
@@ -43,14 +43,6 @@ minify:
       effort: 2 # CPU effort, an integer between 0 and 6 (lower for faster)
       replaceSrc: true # Automatically replace local image links in generated HTML with WebP links
       # We recommend using a Service Worker to implement the replaceSrc functionality on the user side, which will enable link replacement in a less intrusive manner.
-    preprocess:
-      persistentDB: ./lightning-img.json
-      thumbHash: 
-        enable: false
-        maxSize: 100 # px, must <=100
-        injectDataThumbHash: false
-        injectDataSrc: false
-        injectUnlazy: 
     exclude:
 ```
 
