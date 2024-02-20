@@ -26,6 +26,7 @@ hexo.config.minify.css = Object.assign({
 
 hexo.config.minify.html = Object.assign({
   enable: true,
+  minifier: 'html-minifier',
   options: {
     comments: false
   },

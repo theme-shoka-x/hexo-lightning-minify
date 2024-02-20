@@ -30,6 +30,7 @@ minify:
       targets: ">= 0.5%" # browserslist format target
     exclude: # Exclude files, accept string[], must match micromatch format
   html:
+    minifier: html-minifier # minify-html(faster) or html-minifier(more stable)
     enable: true # Enable HTML optimization
     options:
       comments: false # Whether to preserve comment content

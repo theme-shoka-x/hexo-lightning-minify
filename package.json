@@ -1,6 +1,6 @@
 {
   "name": "hexo-lightning-minify",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A Hexo plugin that can automatically minify JS, CSS, and HTML files at lightning speed.",
   "main": "index.js",
   "scripts": {
@@ -11,22 +11,36 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@minify-html/node": "^0.15.0",
-    "@types/node": "^20.11.17",
     "browserslist": "^4.23.0",
     "cheerio": "1.0.0-rc.12",
-    "esbuild": "^0.20.0",
+    "esbuild": "^0.20.1",
     "hexo": "^7.1.1",
+    "html-minifier": "^4.0.0",
     "lightningcss": "^1.23.0",
     "micromatch": "^4.0.5",
     "sharp": "^0.33.2",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@types/html-minifier": "^4.0.5",
+    "@types/node": "^20.11.19",
     "@types/micromatch": "^4.0.6",
-    "@typescript-eslint/eslint-plugin": "^7.0.1",
-    "@typescript-eslint/parser": "^7.0.1",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
     "eslint": "^8.56.0",
     "eslint-config-standard": "~17",
     "eslint-plugin-n": "^16.6.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "array-includes": "npm:@nolyfill/array-includes@latest",
+      "array.prototype.findlastindex": "npm:@nolyfill/array.prototype.findlastindex@latest",
+      "array.prototype.flat": "npm:@nolyfill/array.prototype.flat@latest",
+      "array.prototype.flatmap": "npm:@nolyfill/array.prototype.flatmap@latest",
+      "hasown": "npm:@nolyfill/hasown@latest",
+      "object.fromentries": "npm:@nolyfill/object.fromentries@latest",
+      "object.groupby": "npm:@nolyfill/object.groupby@latest",
+      "object.values": "npm:@nolyfill/object.values@latest"
+    }
   }
 }
