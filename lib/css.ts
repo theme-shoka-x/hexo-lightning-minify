@@ -15,7 +15,7 @@ export function minifyCss (this: Hexo, str:string, data:any) {
   if (isExclude(data.path, exclude)) return str
   return transform({
     filename: data.path,
-    code: Buffer.from(str),
+    code: Uint8Array.from(Buffer.from(str)),
     minify: true,
     targets
   }).code.toString()

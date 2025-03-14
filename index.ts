@@ -1,5 +1,4 @@
 import type Hexo from 'hexo'
-import { minifyHtml } from './lib/html'
 import { minifyCss } from './lib/css'
 import { minifyJs } from './lib/js'
 import { replaceSrc, transformImage } from './lib/img'
@@ -24,14 +23,6 @@ hexo.config.minify.css = Object.assign({
   exclude: []
 }, hexo.config.minify?.css)
 
-hexo.config.minify.html = Object.assign({
-  enable: true,
-  minifier: 'html-minifier',
-  options: {
-    comments: false
-  },
-  exclude: []
-}, hexo.config.minify?.html)
 
 hexo.config.minify.image = Object.assign({
   enable: true,
@@ -40,14 +31,12 @@ hexo.config.minify.image = Object.assign({
     avif: false,
     quality: 80,
     effort: 2,
-    replaceSrc: true
+    replaceSrc: true,
+    destroyOldRoute: false
   },
   exclude: []
 }, hexo.config.minify?.image)
 
-if (hexo.config.minify.html.enable) {
-  hexo.extend.filter.register('after_render:html', minifyHtml)
-}
 if (hexo.config.minify.css.enable) {
   hexo.extend.filter.register('after_render:css', minifyCss)
 }
