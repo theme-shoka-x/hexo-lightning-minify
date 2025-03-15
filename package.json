@@ -10,12 +10,10 @@
   "author": "zkz098",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@minify-html/node": "^0.15.0",
     "browserslist": "^4.24.4",
     "cheerio": "1.0.0",
     "esbuild": "^0.25.1",
     "hexo": "^7.3.0",
-    "html-minifier": "^4.0.0",
     "lightningcss": "^1.29.3",
     "micromatch": "^4.0.8",
     "sharp": "^0.33.5",
@@ -28,7 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
     "eslint": "^9.22.0",
-    "eslint-config-standard": "~17",
+    "eslint-config-standard": "^17.1.0",
     "eslint-plugin-n": "^17.16.2"
   },
   "pnpm": {

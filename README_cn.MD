@@ -3,7 +3,7 @@
 ## 简介
 
 此插件为[hexo-renderer-multi-next-markdown-it](https://github.com/theme-shoka-x/hexo-renderer-multi-next-markdown-it)拆分出的缩小器模块。
-基于更现代的缩小器重构(例如`lightningcss`和`minify-html`)，速度相较于旧版大幅提升。
+基于更现代的缩小器重构(例如lightningcss)，速度相较于旧版大幅提升。
 
 如果你需要更全面的优化可以试试[hexo-optimize](https://github.com/next-theme/hexo-optimize)。本项目更倾向于作为 ShokaX 的配套支持包存在，因而仅存在基本的缩小与优化功能。
 
@@ -26,20 +26,20 @@ minify:
     options:
       targets: ">= 0.5%" # browserslist 格式的 target
     exclude: # 排除文件，接受 string[]，需符合 micromatch 格式
-  html:
-    enable: true # 开启 HTML 优化
-    options:
-      comments: false # 是否保留注释内容
-    exclude: # 排除文件，接受 string[]，需符合 micromatch 格式
   image:
     enable: true # 开启图片预处理和自动 WebP 化
     options:
-      avif: false
-      webp: true # 预留配置项，现版本无作用
-      quality: 80 # 质量，支持1-100的整数、lossless或nearLossless
+      # 使用哪种格式
+      avif: true
+      webp: false
+      quality: 60 # 质量，支持1-100的整数、lossless或nearLossless
       effort: 2 # CPU 工作量，0-6之间的整数(越低越快)
-      replaceSrc: true # 自动替换生成html中的本地图片链接为webp链接
+      replaceSrc: true # 自动替换生成html中的本地图片链接为转换后链接
       # 我们更建议使用 Service Worker 来在用户侧实现 replaceSrc 的功能，这将能够以一种侵入式更小的方式实现链接替换
+      enableSubSampling: true # 使用更好的子采样算法
+      # 对于 AVIF 格式，这将会使用 4:2:0 采样，如果关闭则为 4:4:4 采样，可在质量基本不变的情况下大幅优化体积
+      # 对于 WEBP 格式，这会允许转换时使用更多 CPU 时间，可以提升图片质量
+      destroyOldRoute: false # 仅生成处理后图片，不生成原图片
     exclude:
 ```
 
@@ -47,10 +47,11 @@ minify:
 
 - [x] 自动缩小 js、css 和 html
 - [x] 基于 targets 自动处理 CSS 前缀兼容
-- [x] 自动 webp 化与图片预处理
+- [x] 自动 avif 化与图片预处理
 - [ ] 自动预连接优化(长期)
 
 ## 比较
+> 请注意，这些测试进行时lightning-minify还有html压缩功能，现在这些测试可能已经没有参考意义
 
 在 ShokaX v0.3.9 进行的测试： \
 <img src="https://github.com/theme-shoka-x/hexo-lightning-minify/assets/92242020/35a79034-28e2-461d-ac73-e74745b92f4d" width="480px">
