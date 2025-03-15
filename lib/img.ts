@@ -125,7 +125,7 @@ export function replaceSrc (this: Hexo, str: string) {
   } else if (this.config.minify.image.options.avif) {
     transformedImageExt = '.avif'
   }
-  const $ = load(str, { decodeEntities: false })
+  const $ = load(str)
   const origin = new URL(this.config.url).origin
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const hexo = this
@@ -139,7 +139,6 @@ export function replaceSrc (this: Hexo, str: string) {
     const img = $(this)
     const src = img.attr('src')
     const dataSrc = img.attr('data-src')
-    const dataBgImg = img.attr('data-background-image')
 
     if (isLocalLink(hexo, origin, src) && typeof src !== 'undefined') {
       img.attr('src', replaceLink(src))
@@ -147,29 +146,13 @@ export function replaceSrc (this: Hexo, str: string) {
     if (isLocalLink(hexo, origin, dataSrc) && typeof dataSrc !== 'undefined') {
       img.attr('data-src', replaceLink(dataSrc))
     }
-    if (isLocalLink(hexo, origin, dataBgImg) && typeof dataBgImg !== 'undefined') {
-      img.attr('data-background-image', replaceLink(dataBgImg))
-    }
   })
 
   $('div .cover').each(function () {
-    const div = $(this)
-    const style = div.attr('style')
-    
-    if (style) {
-      // 使用正则表达式匹配 background-image 的 URL
-      const updatedStyle = style.replace(
-        /(background-image:\s*url\()(['"]?)(.*?)\2\)/gi,
-        (match, prefix, quote, url) => {
-          if (isLocalLink(hexo, origin, url)) {
-            const newUrl = replaceLink(url)
-            return `${prefix}${quote}${newUrl}${quote})`
-          }
-          return match
-        }
-      )
-
-      div.attr('style', updatedStyle)
+    const div = $(this);
+    const dataBgImg = div.attr('data-background-image');
+    if (isLocalLink(hexo, origin, dataBgImg) && typeof dataBgImg !== 'undefined') {
+        div.attr('data-background-image', replaceLink(dataBgImg));
     }
   })
 
