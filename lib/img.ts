@@ -135,7 +135,7 @@ export async function transformImage (this: Hexo) {
           if (this.config.minify.image.options.destroyOldRoute) {
             this.route.remove(image.path)
           }
-          this.log.info(`Converted ${image.path} to ${transformedImageExt} (${info.length} bytes)`)
+          this.log.info(`Converted ${image.path} to ${transformedImageExt} (saved ${((sourceBuffer.length - info.length)/sourceBuffer.length * 100).toFixed(2)}%)`)
           if (options.persistCache) {
             const sourcePathHash = createHash('sha256').update(image.path).digest('hex')
             await fs.writeFile(`./lightning-minify/images/${sourcePathHash}${transformedImageExt}`, info)

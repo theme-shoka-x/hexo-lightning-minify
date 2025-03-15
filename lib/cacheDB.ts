@@ -17,14 +17,14 @@ export class CacheDB {
 
   async readDB() {
     await fs.mkdir('./lightning-minify/images', { recursive: true })
-    if ((await fs.access('./lightning-minify/image.json').catch(() => false))) {
-      return
-    }
     try {
       const data = await fs.readFile('./lightning-minify/image.json', 'utf-8')
       this.data = JSON.parse(data)
     } catch (error) {
-      throw new Error('Error reading image cache db: ' + error)
+      if ((error as any).code !== 'ENOENT') {
+        throw error
+      }
+      this.data = { version: 1, images: {} }
     }
   }
 
