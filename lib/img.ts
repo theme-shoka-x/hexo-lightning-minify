@@ -119,6 +119,12 @@ const isLocalLink = function (hexo: Hexo, origin: string, src?: string) {
 }
 
 export function replaceSrc (this: Hexo, str: string) {
+  let transformedImageExt = ''
+  if (this.config.minify.image.options.webp) {
+    transformedImageExt = '.webp'
+  } else if (this.config.minify.image.options.avif) {
+    transformedImageExt = '.avif'
+  }
   const $ = load(str, { decodeEntities: false })
   const origin = new URL(this.config.url).origin
   // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -126,7 +132,7 @@ export function replaceSrc (this: Hexo, str: string) {
 
   function replaceLink (src: string) {
     const srcO = path.parse(src)
-    return path.join(srcO.dir, srcO.name + transformImage).replace(/\\/g, '/')
+    return path.join(srcO.dir, srcO.name + transformedImageExt).replace(/\\/g, '/')
   }
 
   $('img').each(function () {
