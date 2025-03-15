@@ -37,9 +37,11 @@ minify:
       replaceSrc: true # 自动替换生成html中的本地图片链接为转换后链接
       # 我们更建议使用 Service Worker 来在用户侧实现 replaceSrc 的功能，这将能够以一种侵入式更小的方式实现链接替换
       enableSubSampling: true # 使用更好的子采样算法
-      # 对于 AVIF 格式，这将会使用 4:2:0 采样，如果关闭则为 4:4:4 采样，可在质量基本不变的情况下大幅优化体积
+      # 对于 AVIF 格式，这将会使用 4:2:0 采样，可在质量基本不变的情况下大幅优化体积，如果关闭则为 4:4:4 采样，
       # 对于 WEBP 格式，这会允许转换时使用更多 CPU 时间，可以提升图片质量
-      destroyOldRoute: false # 仅生成处理后图片，不生成原图片
+      destroyOldRoute: false # 仅生成处理后图片，不在产物中包含原图片
+      persistCache: true # 持久化生成图片缓存
+      # 将转换后的图片存储在硬盘中，大幅降低转换用时
     exclude:
 ```
 
