@@ -27,12 +27,13 @@ hexo.config.minify.css = Object.assign({
 hexo.config.minify.image = Object.assign({
   enable: true,
   options: {
-    webp: true,
-    avif: false,
+    webp: false,
+    avif: true,
     quality: 80,
     effort: 2,
     replaceSrc: true,
-    destroyOldRoute: false
+    destroyOldRoute: false,
+    enableSubSampling: true
   },
   exclude: []
 }, hexo.config.minify?.image)
