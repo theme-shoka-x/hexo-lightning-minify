@@ -6,6 +6,8 @@ import type Hexo from 'hexo'
 import { isExclude } from './utils'
 import { load } from 'cheerio'
 import { Readable } from 'node:stream'
+import { createHash } from 'node:crypto'
+import { CacheDB } from './cacheDB'
 
 interface transformImageOptions {
   enable: boolean
@@ -16,6 +18,7 @@ interface transformImageOptions {
     enableSubSampling: boolean
     effort: number
     replaceSrc: boolean
+    persistCache: boolean
   }
   exclude: string[]
 }
@@ -38,6 +41,8 @@ async function streamToBuffer(stream: Readable): Promise<Buffer> {
     });
   });
 }
+
+const cacheDB = new CacheDB()
 
 export async function transformImage (this: Hexo) {
   let transformedImageExt = ''
@@ -85,32 +90,66 @@ export async function transformImage (this: Hexo) {
   const images = imagesPaths.map((image, index) => ({
     path: image,
     stream: streamsOfImages[index],
+    cached: false
   }));
+
+
+  if (options.persistCache) {
+    await cacheDB.readDB()
+  }
 
   await Promise.all(images.map(async image => {
     if (isExclude(image.path, exclude)) {
       return
     }
+
+    const sourceBuffer = await streamToBuffer(image.stream)
     const transformedPath = image.path.replace(/\.(png|jpg|gif|jpeg)$/i, transformedImageExt)
 
     const transformedImagePath = path.join(publicDir, transformedPath)
 
+    if (options.persistCache) {
+      
+      const sourcePathHash = createHash('sha256').update(image.path).digest('hex')
+      const sourceImageHash = createHash('sha256').update(sourceBuffer).digest('hex')
+
+      const cachedHash = cacheDB.getImageHash(sourcePathHash)
+
+      if (cachedHash && cachedHash === sourceImageHash) {
+        const cacheImage = await fs.readFile(`./lightning-minify/images/${sourcePathHash}${transformedImageExt}`)
+        this.route.set(transformedPath, cacheImage)
+        image.cached = true
+        this.log.info(`Using cached image for ${image.path} (${cacheImage.length} bytes)`)
+        return
+      } else {
+        await cacheDB.setImageHash(sourcePathHash, sourceImageHash)
+      }
+    }
+
     if (!(await fs.access(transformedImagePath).catch(() => false))) {
-      const sharpImage = sharp(await streamToBuffer(image.stream))
+      const sharpImage = sharp(sourceBuffer)
       const transformedSharp = options.webp ? sharpImage.webp(sharpWebpOptions) : sharpImage.avif(sharpAvifOptions)
       transformedSharp.toBuffer()
-        .then(info => {
+        .then(async info => {
           this.route.set(transformedPath, info)
           if (this.config.minify.image.options.destroyOldRoute) {
             this.route.remove(image.path)
           }
           this.log.info(`Converted ${image.path} to ${transformedImageExt} (${info.length} bytes)`)
+          if (options.persistCache) {
+            const sourcePathHash = createHash('sha256').update(image.path).digest('hex')
+            await fs.writeFile(`./lightning-minify/images/${sourcePathHash}${transformedImageExt}`, info)
+          }
         })
         .catch((err) => {
           this.log.error(`Error converting ${image.path} to ${transformedImageExt}:`, err)
         })
     }
   }))
+
+  if (options.persistCache) {
+    await cacheDB.writeDB()
+  }
 }
 
 const isLocalLink = function (hexo: Hexo, origin: string, src?: string) {
