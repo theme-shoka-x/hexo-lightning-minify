@@ -10,9 +10,10 @@ import { Readable } from 'node:stream'
 interface transformImageOptions {
   enable: boolean
   options: {
-    avif: boolean // TODO 兼容多种格式处理
-    webp: boolean // TODO 兼容多种格式处理
+    avif: boolean
+    webp: boolean
     quality: number | 'lossless' | 'nearLossless'
+    enableSubSampling: boolean
     effort: number
     replaceSrc: boolean
   }
@@ -38,25 +39,48 @@ async function streamToBuffer(stream: Readable): Promise<Buffer> {
   });
 }
 
-
 export async function transformImage (this: Hexo) {
+  let transformedImageExt = ''
   const publicDir = this.public_dir
   const { options, exclude } = this.config.minify.image as transformImageOptions
-  const sharpOptions: Partial<sharp.WebpOptions> = {
-    effort: options.effort,
-    lossless: false,
-    nearLossless: false,
-    quality: 100
-  }
-  if (options.quality === 'lossless') {
-    sharpOptions.lossless = true
-  } else if (options.quality === 'nearLossless') {
-    sharpOptions.nearLossless = true
+  let sharpAvifOptions: Partial<sharp.AvifOptions> | undefined
+  let sharpWebpOptions: Partial<sharp.WebpOptions> | undefined
+  if (options.avif) {
+    sharpAvifOptions = {
+      effort: options.effort,
+      lossless: false,
+      quality: 60,
+      chromaSubsampling: options.enableSubSampling ? '4:2:0' : '4:4:4',
+    }
+    if (options.quality === 'lossless') {
+      sharpAvifOptions.lossless = true
+    } else if (options.quality === 'nearLossless') {
+      throw new Error('nearLossless is not supported in avif format')
+    } else {
+      sharpAvifOptions.quality = options.quality
+    }
+    transformedImageExt = '.avif'
+  } else if (options.webp) {
+    sharpWebpOptions = {
+      effort: options.effort,
+      lossless: false,
+      nearLossless: false,
+      smartSubsample: options.enableSubSampling,
+      quality: 80,
+    }
+    if (options.quality === 'lossless') {
+      sharpWebpOptions.lossless = true
+    } else if (options.quality === 'nearLossless') {
+      sharpWebpOptions.nearLossless = true
+    } else {
+      sharpWebpOptions.quality = options.quality
+    }
+    transformedImageExt = '.webp'
   } else {
-    sharpOptions.quality = options.quality
+    throw new Error('No image format selected for conversion. Please enable either AVIF or WebP.')
   }
 
-  const imagesPaths = this.route.list().filter(item => item.match(/\.(png|jpg|gif)$/i))
+  const imagesPaths = this.route.list().filter(item => item.match(/\.(png|jpg|gif|jpeg)$/i))
   const streamsOfImages = imagesPaths.map(item => this.route.get(item))
   const images = imagesPaths.map((image, index) => ({
     path: image,
@@ -67,23 +91,23 @@ export async function transformImage (this: Hexo) {
     if (isExclude(image.path, exclude)) {
       return
     }
-    const webpPath = image.path.replace(/\.(png|jpg|gif)$/i, '.webp')
+    const transformedPath = image.path.replace(/\.(png|jpg|gif|jpeg)$/i, transformedImageExt)
 
-    const webpImagePath = path.join(publicDir, webpPath)
+    const transformedImagePath = path.join(publicDir, transformedPath)
 
-    if (!(await fs.access(webpImagePath).catch(() => false))) {
-      await sharp(await streamToBuffer(image.stream))
-        .webp(sharpOptions)
-        .toBuffer()
+    if (!(await fs.access(transformedImagePath).catch(() => false))) {
+      const sharpImage = sharp(await streamToBuffer(image.stream))
+      const transformedSharp = options.webp ? sharpImage.webp(sharpWebpOptions) : sharpImage.avif(sharpAvifOptions)
+      transformedSharp.toBuffer()
         .then(info => {
-          this.route.set(webpPath, info)
+          this.route.set(transformedPath, info)
           if (this.config.minify.image.options.destroyOldRoute) {
             this.route.remove(image.path)
           }
-          this.log.info(`Converted ${image.path} to WebP (${info.length} bytes)`)
+          this.log.info(`Converted ${image.path} to ${transformedImageExt} (${info.length} bytes)`)
         })
         .catch((err) => {
-          this.log.error(`Error converting ${image.path} to WebP:`, err)
+          this.log.error(`Error converting ${image.path} to ${transformedImageExt}:`, err)
         })
     }
   }))
@@ -102,7 +126,7 @@ export function replaceSrc (this: Hexo, str: string) {
 
   function replaceLink (src: string) {
     const srcO = path.parse(src)
-    return path.join(srcO.dir, srcO.name + '.webp').replace(/\\/g, '/')
+    return path.join(srcO.dir, srcO.name + transformImage).replace(/\\/g, '/')
   }
 
   $('img').each(function () {
