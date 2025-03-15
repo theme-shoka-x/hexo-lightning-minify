@@ -29,7 +29,7 @@ hexo.config.minify.image = Object.assign({
   options: {
     webp: false,
     avif: true,
-    quality: 80,
+    quality: 60,
     effort: 2,
     replaceSrc: true,
     destroyOldRoute: false,
